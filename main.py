@@ -7,12 +7,6 @@ result = run("ps aux", shell=True, capture_output=True).stdout.decode('utf-8').r
 
 res_list = result.split("\n")
 
-# res_list = ['USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND',
-#             'root           1  0.0  0.0 166884 12056 ?        Ss   12:59   0:01 /sbin/init splash',
-#             'kroot           2  0.0  60.0      0     0 ?        S    12:59   0:00 [kthreadd]',
-#             'rttteeeeeeeee           3  50.0  0.0      0     0 ?        I<   12:59   0:00 [rcu_gp]',
-#             'rttt           3  40.0  0.0      0     0 ?        I<   12:59   0:00 [rcu_gp]']
-
 all_process = len(res_list) - 1
 users = []
 users_dict = {}
@@ -26,17 +20,18 @@ max_mem_list = [0, 0]
 for i in res_list[1:]:
     res_list_2 = i.split()
     if res_list_2[0] in users_dict.keys():
-        n += 1
-        users_dict[res_list_2[0]] = n
+        users_dict[res_list_2[0]] += 1
     else:
-        users_dict[res_list_2[0]] = n
+        max_cpu_list[0] = res_list_2[10]
+        max_mem_list[0] = res_list_2[10]
+        users_dict[res_list_2[0]] = 1
     if max_cpu < float(res_list_2[2]):
         max_cpu = float(res_list_2[2])
-        max_cpu_list[0] = res_list_2[0]
+        max_cpu_list[0] = res_list_2[10]
         max_cpu_list[1] = max_cpu
     if max_mem < float(res_list_2[3]):
         max_mem = float(res_list_2[3])
-        max_mem_list[0] = res_list_2[0]
+        max_mem_list[0] = res_list_2[10]
         max_mem_list[1] = max_mem
     cpu += float(res_list_2[2])
     mem += float(res_list_2[3])

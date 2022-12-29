@@ -22,8 +22,6 @@ for i in res_list[1:]:
     if res_list_2[0] in users_dict.keys():
         users_dict[res_list_2[0]] += 1
     else:
-        max_cpu_list[0] = res_list_2[10]
-        max_mem_list[0] = res_list_2[10]
         users_dict[res_list_2[0]] = 1
     if max_cpu < float(res_list_2[2]):
         max_cpu = float(res_list_2[2])
